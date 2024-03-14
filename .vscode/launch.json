@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "c:/dev/loggy_src",
-      "program": "c:/dev/loggy_src/build/Debug/outDebug",
+      "program": "c:/dev/loggy_src/build/Release/outRelease",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
