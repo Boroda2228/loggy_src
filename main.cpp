@@ -69,6 +69,8 @@ int main() {
     string product_id = "";
     vector<double> test_time_val;
     vector<double> filtered;
+    double min_val = 3.00;
+    double max_val = 30.00;
     cout << "Please type product_id in #XXPUSXXXX/60 format, 12NC or 6 digits of SN#: " << endl; 
     cin >> product_id;
     cout << "Please type input file path: " << endl; 
@@ -88,13 +90,13 @@ int main() {
     }
 
 //here is sort of vector and discard bad values - too big, too small (small values interfere with WB result )
-  
 
-    std::copy_if(test_time_val.begin(), test_time_val.end(), std::back_inserter(filtered), [](double x) {
-        return x >= 3.00 && x <= 30.00;
+
+    std::copy_if(test_time_val.begin(), test_time_val.end(), std::back_inserter(filtered), [&min_val, &max_val](double x) {
+        return x >= min_val && x <= max_val;
     });
 
-    // Сортировка отфильтрованного вектора
+// Сортировка отфильтрованного вектора
     std::sort(filtered.begin(), filtered.end());
 
 //end of sorting
