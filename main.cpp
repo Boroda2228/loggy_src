@@ -68,6 +68,7 @@ int main() {
     string output_file_path = "";
     string product_id = "";
     vector<double> test_time_val;
+    vector<double> filtered;
     cout << "Please type product_id in #XXPUSXXXX/60 format, 12NC or 6 digits of SN#: " << endl; 
     cin >> product_id;
     cout << "Please type input file path: " << endl; 
@@ -86,16 +87,26 @@ int main() {
         return 0;
     }
 
-    double min = *std::min_element(test_time_val.begin(), test_time_val.end());
-    double max = *std::max_element(test_time_val.begin(), test_time_val.end());
+//here is sort of vector and discard bad values - too big, too small (small values interfere with WB result )
+  
 
-    double sum = accumulate(test_time_val.begin(), test_time_val.end(), 0.0);
-    double mean = sum / test_time_val.size();
+    std::copy_if(test_time_val.begin(), test_time_val.end(), std::back_inserter(filtered), [](double x) {
+        return x >= 3.00 && x <= 30.00;
+    });
 
-    double variance = accumulate(test_time_val.begin(), test_time_val.end(), 0.0,
+    // Сортировка отфильтрованного вектора
+    std::sort(filtered.begin(), filtered.end());
+
+//end of sorting
+    double min = *std::min_element(filtered.begin(), filtered.end());
+    double max = *std::max_element(filtered.begin(), filtered.end());
+    double sum = accumulate(filtered.begin(), filtered.end(), 0.0);
+    double mean = sum / filtered.size();
+
+    double variance = accumulate(filtered.begin(), filtered.end(), 0.0,
         [mean](const double a, const double b) {
              return a + (b - mean) * (b - mean);
-            }) / test_time_val.size();
+            }) / filtered.size();
 
 
     std::cout << "Average value: " << mean << std::endl;
